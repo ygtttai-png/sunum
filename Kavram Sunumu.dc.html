@@ -76,7 +76,7 @@
       <div style="position:absolute; right:54px; top:50%; transform:translateY(-50%); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.28em; color:#f0ede6; opacity:0.16; writing-mode:vertical-rl">00 — GİRİŞ</div>
 
       <div style="position:relative; z-index:1">
-        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; color:#f0ede6; opacity:0.28; margin-bottom:44px; animation:heroReveal 1s cubic-bezier(0.16,1,0.3,1) 0.05s both">2025 / CREATIVE DIRECTION</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; color:#f0ede6; opacity:0.28; margin-bottom:44px; animation:heroReveal 1s cubic-bezier(0.16,1,0.3,1) 0.05s both">2026 / CREATIVE DIRECTION</div>
 
         <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(58px,11vw,178px); line-height:0.86; font-weight:400; letter-spacing:-0.038em; color:#f0ede6; animation:heroReveal 1.2s cubic-bezier(0.16,1,0.3,1) 0.18s both">
           YARATICI<br>
@@ -503,7 +503,7 @@ class Component extends DCLogic {
       number: '01',
       name: 'Nordic Silence',
       subtitle: 'Minimalizm · Buz · Sessizlik',
-      year: '2025',
+      year: '2026',
       tags: ['Residential', 'Minimal', 'Nordic'],
       palette: ['#1a2832', '#2d4a5f', '#7aa3b8', '#b8d4e3', '#e8f0f5'],
       paletteNames: ['Derin Okyanus', 'Arduvaz', 'Buz Mavisi', 'Kırağı', 'Bulut'],
@@ -527,7 +527,7 @@ class Component extends DCLogic {
       number: '02',
       name: 'Terra Firma',
       subtitle: 'Toprak · Sıcaklık · Derinlik',
-      year: '2025',
+      year: '2026',
       tags: ['Commercial', 'Organic', 'Earthy'],
       palette: ['#2a1a0e', '#5c3a1e', '#c4813c', '#e8b87a', '#f5e6d3'],
       paletteNames: ['Derin Toprak', 'Kabuk', 'Terrakota', 'Kum', 'Parşömen'],
@@ -551,7 +551,7 @@ class Component extends DCLogic {
       number: '03',
       name: 'Neon Void',
       subtitle: 'Elektrik · Karanlık · Gelecek',
-      year: '2025',
+      year: '2026',
       tags: ['Urban', 'Futurist', 'Digital'],
       palette: ['#0a0714', '#1e0a3c', '#9b5de5', '#c89af0', '#e8d0f5'],
       paletteNames: ['Boşluk', 'Derin Uzay', 'Elektrik', 'Mor Sis', 'Haze'],
@@ -575,7 +575,7 @@ class Component extends DCLogic {
       number: '04',
       name: 'Atelier Light',
       subtitle: 'IÅŸÄ±k Â· Doku Â· Zarafet',
-      year: '2025',
+      year: '2026',
       tags: ['Editorial', 'Soft', 'Gallery'],
       palette: ['#111111', '#3a332c', '#b99d73', '#e6d7bd', '#f7f1e7'],
       paletteNames: ['Murekkep', 'Golge', 'Pirinç', 'Keten', 'Kagit'],
@@ -599,7 +599,7 @@ class Component extends DCLogic {
       number: '05',
       name: 'Urban Pulse',
       subtitle: 'Ritim Â· Hareket Â· Enerji',
-      year: '2025',
+      year: '2026',
       tags: ['Culture', 'Motion', 'Bold'],
       palette: ['#090909', '#242424', '#ff4d35', '#ffb000', '#f2f2ea'],
       paletteNames: ['Siyah', 'Asfalt', 'Koral', 'Sinyal', 'Sis'],
@@ -717,7 +717,8 @@ class Component extends DCLogic {
     try {
       const saved = JSON.parse(localStorage.getItem('kavram-admin-themes') || 'null');
       if (Array.isArray(saved) && saved.length) {
-        this.themes = saved;
+        this.themes = saved.map(t => ({ ...t, year: '2026' }));
+        localStorage.setItem('kavram-admin-themes', JSON.stringify(this.themes));
         this.setState({ adminThemeId: saved[0]?.id || this.state.adminThemeId });
       }
     } catch (_) {}
