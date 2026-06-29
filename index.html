@@ -90,7 +90,7 @@
             AŞAĞI KAYDIRIN
           </div>
           <p style="max-width:300px; font-size:14px; line-height:1.78; color:#f0ede6; opacity:0.42; text-align:right; font-weight:300; text-wrap:pretty">
-            Müşteri sunumları için hazırlanmış üç farklı yaratıcı yön. Her kavram kendi görsel dünyasını taşır.
+            Müşteri sunumları için hazırlanmış beş farklı yaratıcı yön. Her kavram kendi görsel dünyasını taşır.
           </p>
         </div>
       </div>
@@ -496,130 +496,140 @@ class Component extends DCLogic {
   state = { view: 'home', themeId: null, slide: 0, adminThemeId: 'nordic', adminSavedAt: null };
 
   slideRef = React.createRef();
+  storageVersion = 'sunum-defaults-2026-01';
 
   themes = [
     {
       id: 'nordic',
       number: '01',
-      name: 'Nordic Silence',
-      subtitle: 'Minimalizm · Buz · Sessizlik',
+      name: 'Tema-01',
+      subtitle: 'Erişilebilir Yaşam Teması',
       year: '2026',
       tags: ['Residential', 'Minimal', 'Nordic'],
-      palette: ['#1a2832', '#2d4a5f', '#7aa3b8', '#b8d4e3', '#e8f0f5'],
+      palette: ['#6BAF45', '#F39C3D', '#263A4A', '#F4F1E8', '#E7E7E7'],
       paletteNames: ['Derin Okyanus', 'Arduvaz', 'Buz Mavisi', 'Kırağı', 'Bulut'],
       bgColor: '#0d1418',
       textColor: '#e8f0f5',
       accentColor: '#7aa3b8',
+      moodVideo: './uploads/videolar/tema01.mp4',
+      siteImage: './uploads/gorseller/site-01.png',
       fontDisplay: 'Cormorant Garamond',
       fontBody: 'DM Sans',
       slides: [
-        { type: 'cover',      title: 'Nordic Silence', sub: 'Bir Kısıtlama Çalışması' },
-        { type: 'intro',      title: 'Kavram',         body: 'Soğuk havadan oyulan temiz çizgiler. Bu tema kısıtlamanın mimarisini araştırır — daha azının daha fazla olduğu, her detayın kompozisyonda yerini hak ettiği bir dünya.' },
+        { type: 'cover',      title: 'Birlikte Mümkün', sub: 'Erişilebilir Yaşam Teması' },
+        { type: 'intro',      title: 'Kavram',         body: 'Yardım etmeyi tek yönlü bir destek ilişkisi olarak değil, herkesin eşit biçimde yaşamın içinde yer aldığı ortak bir dayanışma kültürü olarak ele alır. Bu tema; engelli bireylerin eğitim, sosyal yaşam, sağlık ve istihdam alanlarında karşılaştığı engellerin birlikte aşılabileceğini anlatır.\n\nAmaç, acıma duygusu oluşturmak değil; eşit hakları, bağımsız yaşamı ve toplumsal katılımı görünür kılmaktır.' },
         { type: 'moodboard',  title: 'Referanslar' },
         { type: 'palette',    title: 'Renk Paleti' },
         { type: 'typography', title: 'Tipografi' },
-        { type: 'quote',      text: '"Boş alan boşluk değildir — müziği mümkün kılan notalar arasındaki nefestir."' },
+        { type: 'quote',      text: 'Gerçek dayanışma, birinin yerine karar vermek değil; herkesin kendi kararlarını verebildiği bir yaşam kurmaktır' },
         { type: 'details',    title: 'Tasarım İlkeleri', items: ['Negatif alan kompozisyon aracı olarak', 'Tek sıcak aksanla monokromatik palet', 'Izgara tabanlı asimetrik yerleşim', 'Dokunsal dokular: keten, beton, huş', 'Tipografi: seyrek, havadar, editoryal'] },
       ],
     },
     {
       id: 'terra',
       number: '02',
-      name: 'Terra Firma',
+      name: 'Tema-02',
       subtitle: 'Toprak · Sıcaklık · Derinlik',
       year: '2026',
       tags: ['Commercial', 'Organic', 'Earthy'],
-      palette: ['#2a1a0e', '#5c3a1e', '#c4813c', '#e8b87a', '#f5e6d3'],
+      palette: ['#6FAE44', '#F28C28', '#3478A4', '#F4C542', '#F7F3E8'],
       paletteNames: ['Derin Toprak', 'Kabuk', 'Terrakota', 'Kum', 'Parşömen'],
       bgColor: '#140d06',
       textColor: '#f5e6d3',
       accentColor: '#c4813c',
+      moodVideo: './uploads/videolar/tema02.mp4',
+      siteImage: './uploads/gorseller/site-02.png',
       fontDisplay: 'Cormorant Garamond',
       fontBody: 'DM Sans',
       slides: [
-        { type: 'cover',      title: 'Terra Firma',    sub: 'Altımızdaki Zemin' },
-        { type: 'intro',      title: 'Kavram',         body: 'Toprağın sıcaklığına kök salmış. Bu tema ham malzemelerden ilham alır — kil, taş, kereste — eski ve kalıcı hissettiren atmosferler yaratmak için.' },
+        { type: 'cover',      title: 'Engelsiz Gelecek', sub: 'Eşit Eğitim ve Gelişim Teması' },
+        { type: 'intro',      title: 'Kavram',         body: 'Her bireyin öğrenme, gelişme ve kendi geleceğini kurma hakkına eşit biçimde sahip olduğu bir dünya düşüncesinden doğar.\n\nBu tema; engelli çocukların ve gençlerin eğitime, teknolojiye, sosyal etkinliklere ve mesleki gelişim olanaklarına erişimini merkeze alır. Sorunu bireyde değil, erişimi kısıtlayan fiziksel ve toplumsal engellerde görür.' },
         { type: 'moodboard',  title: 'Referanslar' },
         { type: 'palette',    title: 'Renk Paleti' },
         { type: 'typography', title: 'Tipografi' },
-        { type: 'quote',      text: '"Toprak bize ait değildir. Biz toprağa aitiz."' },
+        { type: 'quote',      text: '"Bir çocuğun geleceğini yetenekleri değil, karşısına çıkarılan engeller sınırlar."' },
         { type: 'details',    title: 'Tasarım İlkeleri', items: ['Ham, işlenmemiş yüzeyler', 'Sıcak kehribar aydınlatma referansları', 'Organik ve düzensiz formlar', 'Ağır ağırlık ve görsel kütle', 'Doğal malzeme paleti: kil · taş · ahşap'] },
       ],
     },
     {
       id: 'neon',
       number: '03',
-      name: 'Neon Void',
-      subtitle: 'Elektrik · Karanlık · Gelecek',
+      name: 'Tema-03',
+      subtitle: 'Dayanışma · Erişim · Bağımsızlık',
       year: '2026',
       tags: ['Urban', 'Futurist', 'Digital'],
-      palette: ['#0a0714', '#1e0a3c', '#9b5de5', '#c89af0', '#e8d0f5'],
-      paletteNames: ['Boşluk', 'Derin Uzay', 'Elektrik', 'Mor Sis', 'Haze'],
+      palette: ['#17201B', '#2F6B4F', '#77A86B', '#F2A33A', '#F5F1E8'],
+      paletteNames: ['Derin Orman', 'Dayanışma Yeşili', 'Umut Yaprağı', 'Hareket Turuncusu', 'Açık Krem'],
       bgColor: '#060410',
       textColor: '#e8d0f5',
       accentColor: '#9b5de5',
+      moodVideo: './uploads/videolar/tema03.mp4',
+      siteImage: './uploads/gorseller/site-03.png',
       fontDisplay: 'Cormorant Garamond',
       fontBody: 'DM Sans',
       slides: [
-        { type: 'cover',      title: 'Neon Void',      sub: 'Elektrik Karanlık' },
-        { type: 'intro',      title: 'Kavram',         body: 'Şehir ışıklarının altında, farklı bir dünya var. Bu tema kentsel gece manzaralarının elektrik gerilimini yakalar — ham enerji, ince bir estetik merceğinden süzülmüş.' },
+        { type: 'cover',      title: 'Eşit Adımlar', sub: 'Bağımsız Yaşam ve Erişilebilirlik' },
+        { type: 'intro',      title: 'Kavram',         body: 'Erişilebilirlik, engelli bireylerin başkalarının yardımına bağlı kalmadan eğitim, sağlık, çalışma ve sosyal yaşam alanlarına eşit biçimde katılabilmesidir. Bu tema, desteği geçici bir yardım olarak değil; bağımsız yaşamı güçlendiren kalıcı bir dayanışma modeli olarak ele alır. Her bireyin kendi kararlarını verebildiği, ihtiyaç duyduğu hizmetlere ulaşabildiği ve toplumun aktif bir parçası olabildiği bir gelecek tasarlar.' },
         { type: 'moodboard',  title: 'Referanslar' },
         { type: 'palette',    title: 'Renk Paleti' },
         { type: 'typography', title: 'Tipografi' },
-        { type: 'quote',      text: '"Karanlıkta, gündüzlüğün gizlediği renkleri görürüz."' },
+        { type: 'quote',      text: '“Gerçek destek, birinin yerine yürümek değil; herkesin kendi yolunda ilerleyebilmesini sağlamaktır.”' },
         { type: 'details',    title: 'Tasarım İlkeleri', items: ['Derin koyu taban üzerine neon aksan', 'Yüksek kontrast ve dramatik gölge', 'Kontrollü kaos, glitch esintisi', 'Dijital + analog birleşimi', 'Işık bir malzeme olarak kullanımı'] },
       ],
     },
     {
       id: 'atelier',
       number: '04',
-      name: 'Atelier Light',
-      subtitle: 'IÅŸÄ±k Â· Doku Â· Zarafet',
+      name: 'Tema-04',
+      subtitle: 'Üretim · Yetenek · Eşit Fırsat',
       year: '2026',
-      tags: ['Editorial', 'Soft', 'Gallery'],
-      palette: ['#111111', '#3a332c', '#b99d73', '#e6d7bd', '#f7f1e7'],
-      paletteNames: ['Murekkep', 'Golge', 'Pirinç', 'Keten', 'Kagit'],
+      tags: ['İstihdam', 'Üretim', 'Güçlenme'],
+      palette: ['#17352B', '#2E6A4F', '#8BBF74', '#F5A623', '#FFF9EE'],
+      paletteNames: ['Koyu Orman', 'Güven Yeşili', 'Gelişim Yaprağı', 'Cesaret Turuncusu', 'Sıcak Krem'],
       bgColor: '#111111',
       textColor: '#f7f1e7',
       accentColor: '#b99d73',
+      moodVideo: './uploads/videolar/tema04.mp4',
+      siteImage: './uploads/gorseller/site-004.png',
       fontDisplay: 'Cormorant Garamond',
       fontBody: 'DM Sans',
       slides: [
-        { type: 'cover',      title: 'Atelier Light',  sub: 'Yumusak Bir Sergi Dili' },
-        { type: 'intro',      title: 'Kavram',         body: 'Isik, dokular ve bosluk uzerinden sakin ama etkili bir marka atmosferi kurar. Bu tema zarif detaylari ve kontrollu kontrasti one cikarir.' },
+        { type: 'cover',      title: 'Yeteneğe Yer Aç', sub: 'Kapsayıcı İstihdam ve Üretim' },
+        { type: 'intro',      title: 'Kavram',         body: 'Engelli bireylerin çalışma hayatına katılımı bir yardım konusu değil, temel bir hak ve toplumsal gelişim meselesidir. Bu tema; yeteneklerin önyargılar nedeniyle görünmez kalmadığı, çalışma ortamlarının farklı ihtiyaçlara göre düzenlendiği ve herkesin emeğiyle değer üretebildiği kapsayıcı bir gelecek önerir. Amaç bireyleri yalnızca işe yerleştirmek değil; mesleki gelişimlerini, ekonomik bağımsızlıklarını ve karar alma süreçlerine katılımlarını kalıcı biçimde desteklemektir.' },
         { type: 'moodboard',  title: 'Referanslar' },
         { type: 'palette',    title: 'Renk Paleti' },
         { type: 'typography', title: 'Tipografi' },
-        { type: 'quote',      text: '"Iyi tasarim once nefes alacak alan bulur."' },
+        { type: 'quote',      text: '“Fırsatlar erişilebilir olduğunda, yetenekler kendilerine mutlaka bir yol bulur.”' },
         { type: 'details',    title: 'Tasarim Ilkeleri', items: ['Yumusak kontrast ve dogal doku', 'Galeri hissi veren bosluk kullanimi', 'Net ama sakin tipografi', 'Az sayida guclu vurgu', 'Gorsellerde editorial kadraj'] },
       ],
     },
     {
       id: 'pulse',
       number: '05',
-      name: 'Urban Pulse',
-      subtitle: 'Ritim Â· Hareket Â· Enerji',
+      name: 'Tema-05',
+      subtitle: 'Katılım · Görünürlük · Birliktelik',
       year: '2026',
-      tags: ['Culture', 'Motion', 'Bold'],
-      palette: ['#090909', '#242424', '#ff4d35', '#ffb000', '#f2f2ea'],
-      paletteNames: ['Siyah', 'Asfalt', 'Koral', 'Sinyal', 'Sis'],
+      tags: ['Sosyal Katılım', 'Kültür', 'Kapsayıcılık'],
+      palette: ['#2B1E2F', '#FF4F2E', '#F6B73C', '#F2D8C9', '#FFF8F0'],
+      paletteNames: ['Derin Mürdüm', 'Kalp Mercanı', 'Dayanışma Sarısı', 'Yumuşak Pudra', 'Sıcak Beyaz'],
       bgColor: '#090909',
       textColor: '#f2f2ea',
       accentColor: '#ff4d35',
+      moodVideo: './uploads/videolar/tema05.mp4',
+      siteImage: './uploads/gorseller/site-05.png',
       fontDisplay: 'Cormorant Garamond',
       fontBody: 'DM Sans',
       slides: [
-        { type: 'cover',      title: 'Urban Pulse',    sub: 'Hareket Eden Kent' },
-        { type: 'intro',      title: 'Kavram',         body: 'Kent ritminden beslenen daha cesur bir yon. Hareket, tipografi ve kontrast ile enerjik ama kontrollu bir sunum dili olusturur.' },
-        { type: 'moodboard',  title: 'Referanslar' },
-        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'cover',      title: 'Hayata Dahil', sub: 'Kapsayıcı Sosyal Yaşam' },
+        { type: 'intro',      title: 'Kavram',         body: 'Sosyal hayata katılmak; yalnızca bir mekâna girebilmek değil, o mekânda özgürce iletişim kurabilmek, etkinliklere katılabilmek ve kendini topluluğun eşit bir parçası olarak hissedebilmektir. Bu tema; engelli bireylerin sanat, spor, eğlence, seyahat ve gönüllülük alanlarında görünür ve aktif olmasını savunur. Amaç özel alanlar oluşturmak değil, ortak yaşamın bütün alanlarını herkes için erişilebilir hâle getirmektir.' },
+        { type: 'moodboard',  title: 'Birlikte Yaşamak' },
+        { type: 'palette',    title: 'Katılım Paleti' },
         { type: 'typography', title: 'Tipografi' },
-        { type: 'quote',      text: '"Ritim, gorsel dunyanin sessiz metronomudur."' },
+        { type: 'quote',      text: '“Bir toplum, herkes aynı hayatın içinde kendine yer bulabildiğinde gerçekten birlikte yaşar.”' },
         { type: 'details',    title: 'Tasarim Ilkeleri', items: ['Yuksek kontrastli yuzeyler', 'Hareket hissi veren kompozisyon', 'Cesur aksan rengi', 'Kisa ve ritmik metin bloklari', 'Video ve gorselde dinamik gecisler'] },
       ],
     },
   ];
-
   enterTheme(id) {
     this.setState({ view: 'theme', themeId: id, slide: 0 });
   }
@@ -695,6 +705,7 @@ class Component extends DCLogic {
 
   saveAdminData() {
     localStorage.setItem('kavram-admin-themes', JSON.stringify(this.themes));
+    localStorage.setItem('kavram-admin-version', this.storageVersion);
     this.setState({ adminSavedAt: Date.now(), adminThemeId: this.selectedAdminTheme()?.id || this.state.adminThemeId });
   }
 
@@ -715,11 +726,15 @@ class Component extends DCLogic {
 
   componentDidMount() {
     try {
+      const version = localStorage.getItem('kavram-admin-version');
       const saved = JSON.parse(localStorage.getItem('kavram-admin-themes') || 'null');
-      if (Array.isArray(saved) && saved.length) {
+      if (version === this.storageVersion && Array.isArray(saved) && saved.length) {
         this.themes = saved.map(t => ({ ...t, year: '2026' }));
         localStorage.setItem('kavram-admin-themes', JSON.stringify(this.themes));
         this.setState({ adminThemeId: saved[0]?.id || this.state.adminThemeId });
+      } else {
+        localStorage.setItem('kavram-admin-themes', JSON.stringify(this.themes));
+        localStorage.setItem('kavram-admin-version', this.storageVersion);
       }
     } catch (_) {}
 
