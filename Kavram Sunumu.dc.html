@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; background: #080808; }
+
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(56px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.96) translateY(16px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* CSS-only hover effects — no class names, just data-attr selectors */
+    [data-theme-card]:hover [data-card-arrow] { opacity: 0.95 !important; transform: translateX(0) !important; }
+    [data-theme-card]:hover [data-card-bar]   { height: 100% !important; }
+    [data-theme-card]:hover { transform: scale(0.982) !important; }
+
+    @media (max-width: 960px) {
+      #theme-grid { grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 640px) {
+      #theme-grid { grid-template-columns: 1fr !important; }
+      #home-nav { padding: 16px 24px !important; }
+      #hero-section { padding: 24px !important; }
+      #themes-section { padding: 48px 24px 80px !important; }
+      #slide-two-col-intro, #slide-two-col-details { grid-template-columns: 1fr !important; gap: 32px !important; padding: 80px 24px 80px !important; }
+      #slide-moodboard-grid { grid-template-columns: 1fr 1fr !important; }
+      #slide-moodboard-large { grid-row: span 1 !important; }
+      #slide-palette-row { flex-direction: column !important; height: auto !important; }
+      #slide-palette-row > div { height: 64px !important; }
+    }
+  </style>
+</helmet>
+
+<!-- ═══════════════════════════════════════════
+     HOME VIEW
+════════════════════════════════════════════ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="min-height:100vh; background:#080808; color:#f0ede6; font-family:'DM Sans',sans-serif">
+
+    <!-- Fixed nav -->
+    <nav id="home-nav" style="position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 48px; display:flex; justify-content:space-between; align-items:center; background:rgba(8,8,8,0.88); backdrop-filter:blur(28px); border-bottom:1px solid rgba(240,237,230,0.045)">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.24em; color:#f0ede6; opacity:0.75">STUDIO — KAVRAM ARŞİVİ</div>
+      <div style="display:flex; gap:28px; align-items:center">
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#f0ede6; opacity:0.28">05 KAVRAM</div>
+        <button onClick="{{ enterAdmin }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; color:#f0ede6; background:transparent; border:1px solid rgba(240,237,230,0.14); padding:9px 18px; cursor:pointer; transition:all 0.3s ease; outline:none" style-hover="background:rgba(240,237,230,0.07); border-color:rgba(240,237,230,0.34)">ADMIN</button>
+        <button onClick="{{ enterPresentation }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; color:#f0ede6; background:transparent; border:1px solid rgba(240,237,230,0.22); padding:9px 22px; cursor:pointer; transition:all 0.3s ease; outline:none" style-hover="background:rgba(240,237,230,0.09); border-color:rgba(240,237,230,0.45)">SUNUM MODU</button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero-section" style="height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:48px; position:relative; overflow:hidden">
+      <!-- Ambient glow layers -->
+      <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 8% 65%, rgba(22,14,8,0.7) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(16,12,28,0.6) 0%, transparent 55%); pointer-events:none"></div>
+      <!-- Right edge line + label -->
+      <div style="position:absolute; right:48px; top:0; bottom:0; width:1px; background:rgba(240,237,230,0.05)"></div>
+      <div style="position:absolute; right:54px; top:50%; transform:translateY(-50%); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.28em; color:#f0ede6; opacity:0.16; writing-mode:vertical-rl">00 — GİRİŞ</div>
+
+      <div style="position:relative; z-index:1">
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; color:#f0ede6; opacity:0.28; margin-bottom:44px; animation:heroReveal 1s cubic-bezier(0.16,1,0.3,1) 0.05s both">2025 / CREATIVE DIRECTION</div>
+
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(58px,11vw,178px); line-height:0.86; font-weight:400; letter-spacing:-0.038em; color:#f0ede6; animation:heroReveal 1.2s cubic-bezier(0.16,1,0.3,1) 0.18s both">
+          YARATICI<br>
+          <em style="font-style:italic; opacity:0.35; font-weight:300">Konsept</em><br>
+          SERGİSİ
+        </h1>
+
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:56px; animation:heroReveal 1.2s cubic-bezier(0.16,1,0.3,1) 0.38s both">
+          <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#f0ede6; opacity:0.24; display:flex; align-items:center; gap:12px">
+            <div style="width:18px; height:1px; background:currentColor"></div>
+            AŞAĞI KAYDIRIN
+          </div>
+          <p style="max-width:300px; font-size:14px; line-height:1.78; color:#f0ede6; opacity:0.42; text-align:right; font-weight:300; text-wrap:pretty">
+            Müşteri sunumları için hazırlanmış üç farklı yaratıcı yön. Her kavram kendi görsel dünyasını taşır.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section divider -->
+    <div style="border-top:1px solid rgba(240,237,230,0.07); margin:0 48px"></div>
+
+    <!-- Themes section -->
+    <section id="themes-section" style="padding:80px 48px 120px">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:72px">
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.26em; color:#f0ede6; opacity:0.28; display:flex; align-items:center; gap:16px">
+          <div style="width:22px; height:1px; background:currentColor"></div>
+          KAVRAMLAR
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(30px,3.5vw,58px); font-weight:400; color:#f0ede6; letter-spacing:-0.025em; font-style:italic">Bir Yön Seçin</h2>
+      </div>
+
+      <!-- Cards -->
+      <div id="theme-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:3px">
+        <sc-for list="{{ themes }}" as="t" hint-placeholder-count="5">
+          <div data-theme-card="1" onClick="{{ t.enter }}" style="position:relative; height:64vh; min-height:360px; background:{{ t.bgColor }}; cursor:pointer; overflow:hidden; transition:transform 0.65s cubic-bezier(0.16,1,0.3,1)">
+            <!-- Texture -->
+            <div style="position:absolute; inset:0; background:repeating-linear-gradient(135deg,rgba(255,255,255,0.011) 0px,rgba(255,255,255,0.011) 1px,transparent 1px,transparent 14px); pointer-events:none"></div>
+            <!-- Accent bottom glow -->
+            <div style="position:absolute; bottom:0; left:0; right:0; height:52%; background:linear-gradient(to top,{{ t.accentColor }}1e,transparent); pointer-events:none"></div>
+            <!-- Right hover bar -->
+            <div data-card-bar="1" style="position:absolute; top:0; right:0; width:2px; height:0; background:{{ t.accentColor }}; transition:height 0.55s cubic-bezier(0.16,1,0.3,1); pointer-events:none"></div>
+
+            <!-- Content -->
+            <div style="position:absolute; inset:0; padding:28px 30px; display:flex; flex-direction:column; justify-content:space-between">
+              <!-- Top row -->
+              <div style="display:flex; justify-content:space-between">
+                <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.2em; color:{{ t.textColor }}; opacity:0.38">{{ t.number }}</div>
+                <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; color:{{ t.accentColor }}; opacity:0.75">{{ t.year }}</div>
+              </div>
+
+              <!-- Image placeholder -->
+              <div style="flex:1; margin:18px 0; border:1px solid rgba(255,255,255,0.07); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:rgba(255,255,255,0.02)">
+                <div style="width:36px; height:1px; background:{{ t.accentColor }}; opacity:0.28"></div>
+                <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.18em; color:{{ t.textColor }}; opacity:0.18; text-align:center; line-height:1.8">GÖRSEL PLACEHOLDER<br>fotoğraf / video</div>
+              </div>
+
+              <!-- Bottom info -->
+              <div>
+                <div style="width:24px; height:1px; background:{{ t.accentColor }}; margin-bottom:14px"></div>
+                <h3 style="font-family:'Cormorant Garamond',serif; font-size:clamp(24px,2.4vw,42px); font-weight:400; color:{{ t.textColor }}; letter-spacing:-0.02em; line-height:0.94; margin-bottom:6px">{{ t.name }}</h3>
+                <div style="font-size:11px; color:{{ t.textColor }}; opacity:0.38; letter-spacing:0.1em">{{ t.subtitle }}</div>
+                <div style="display:flex; gap:6px; margin-top:14px; flex-wrap:wrap">
+                  <sc-for list="{{ t.tags }}" as="tag" hint-placeholder-count="3">
+                    <span style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; color:{{ t.textColor }}; opacity:0.3; border:1px solid rgba(255,255,255,0.1); padding:3px 8px">{{ tag }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hover arrow -->
+            <div data-card-arrow="1" style="position:absolute; bottom:28px; right:30px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; color:{{ t.accentColor }}; opacity:0; transform:translateX(-6px); transition:opacity 0.35s ease,transform 0.35s ease; pointer-events:none">GİR →</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:36px; text-align:center; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.22em; color:#f0ede6; opacity:0.18">KARTA TIKLAYARAK SUNUMA GİRİN — OK TUŞLARI İLE İLERLEYİN</div>
+    </section>
+
+  </div>
+</sc-if>
+
+<!-- ADMIN VIEW -->
+<sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh; background:#0b0b0b; color:#f0ede6; font-family:'DM Sans',sans-serif; padding:32px 40px 56px">
+    <nav style="display:flex; justify-content:space-between; align-items:center; gap:24px; margin-bottom:32px">
+      <div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.24em; opacity:0.35; margin-bottom:8px">YONETIM ALANI</div>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:48px; line-height:1; font-weight:400; letter-spacing:-0.025em">Tema Icerikleri</h1>
+      </div>
+      <div style="display:flex; gap:12px; align-items:center">
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#9bcf9b; opacity:{{ adminSavedOp }}">{{ adminSaveText }}</div>
+        <button onClick="{{ resetAdmin }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#f0ede6; background:transparent; border:1px solid rgba(240,237,230,0.18); padding:11px 16px; cursor:pointer">SIFIRLA</button>
+        <button onClick="{{ saveAdmin }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#080808; background:#f0ede6; border:1px solid #f0ede6; padding:11px 18px; cursor:pointer">KAYDET</button>
+        <button onClick="{{ exitAdmin }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#f0ede6; background:transparent; border:none; padding:11px 0; cursor:pointer; opacity:0.55">GERI</button>
+      </div>
+    </nav>
+
+    <div style="display:grid; grid-template-columns:240px 1fr; gap:28px; align-items:start">
+      <aside style="display:flex; flex-direction:column; gap:8px">
+        <sc-for list="{{ adminThemes }}" as="at" hint-placeholder-count="5">
+          <button onClick="{{ at.select }}" style="text-align:left; background:{{ at.bg }}; color:#f0ede6; border:1px solid rgba(240,237,230,0.12); padding:14px 14px; cursor:pointer">
+            <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.18em; opacity:0.5; margin-bottom:6px">{{ at.number }}</div>
+            <div style="font-size:14px; line-height:1.2">{{ at.name }}</div>
+          </button>
+        </sc-for>
+        <div style="font-size:12px; line-height:1.55; opacity:0.36; margin-top:12px">Dosyalari once uploads klasorune koyun. Sonra burada ornek gibi yolu yazin: ./uploads/videolar/tema01.mp4</div>
+      </aside>
+
+      <main style="display:grid; grid-template-columns:1fr 1fr; gap:18px">
+        <section style="border:1px solid rgba(240,237,230,0.12); padding:18px">
+          <h2 style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; opacity:0.5; margin-bottom:16px">TEMA BILGISI</h2>
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Tema adi</label>
+          <input value="{{ adminName }}" onInput="{{ adminNameChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none">
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Alt baslik</label>
+          <input value="{{ adminSubtitle }}" onInput="{{ adminSubtitleChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none">
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Etiketler virgulle</label>
+          <input value="{{ adminTags }}" onInput="{{ adminTagsChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px">
+            <div><label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Arka plan</label><input value="{{ adminBgColor }}" onInput="{{ adminBgColorChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></div>
+            <div><label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Metin</label><input value="{{ adminTextColor }}" onInput="{{ adminTextColorChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></div>
+            <div><label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Aksan</label><input value="{{ adminAccentColor }}" onInput="{{ adminAccentColorChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></div>
+          </div>
+        </section>
+
+        <section style="border:1px solid rgba(240,237,230,0.12); padding:18px">
+          <h2 style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; opacity:0.5; margin-bottom:16px">MEDYA VE RENK</h2>
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Video yolu</label>
+          <input value="{{ adminVideo }}" onInput="{{ adminVideoChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none">
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Site gorseli yolu</label>
+          <input value="{{ adminImage }}" onInput="{{ adminImageChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none">
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Renk paleti, # ile virgullu</label>
+          <textarea value="{{ adminPalette }}" onInput="{{ adminPaletteChange }}" style="width:100%; min-height:74px; resize:vertical; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:12px; outline:none"></textarea>
+          <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">Renk isimleri, virgullu</label>
+          <input value="{{ adminPaletteNames }}" onInput="{{ adminPaletteNamesChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none">
+        </section>
+
+        <section style="grid-column:1 / -1; border:1px solid rgba(240,237,230,0.12); padding:18px">
+          <h2 style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; opacity:0.5; margin-bottom:16px">7 ASAMALI SLIDER ICERIGI</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
+            <div>
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">1 Kapak basligi</label>
+              <input value="{{ adminCoverTitle }}" onInput="{{ adminCoverTitleChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:10px; outline:none">
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">1 Kapak alt metni</label>
+              <input value="{{ adminCoverSub }}" onInput="{{ adminCoverSubChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:10px; outline:none">
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">2 Kavram metni</label>
+              <textarea value="{{ adminIntroBody }}" onInput="{{ adminIntroBodyChange }}" style="width:100%; min-height:110px; resize:vertical; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></textarea>
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">3 Moodboard basligi</label>
+              <input value="{{ adminMoodTitle }}" onInput="{{ adminMoodTitleChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:10px; outline:none">
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">4 Palet basligi</label>
+              <input value="{{ adminPaletteTitle }}" onInput="{{ adminPaletteTitleChange }}" style="width:100%; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; margin-bottom:10px; outline:none">
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">6 Alinti</label>
+              <textarea value="{{ adminQuote }}" onInput="{{ adminQuoteChange }}" style="width:100%; min-height:86px; resize:vertical; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></textarea>
+            </div>
+            <div style="grid-column:1 / -1">
+              <label style="display:block; font-size:12px; opacity:0.55; margin-bottom:6px">7 Tasarim ilkeleri, her satir bir madde</label>
+              <textarea value="{{ adminDetailsItems }}" onInput="{{ adminDetailsItemsChange }}" style="width:100%; min-height:120px; resize:vertical; background:#151515; color:#f0ede6; border:1px solid rgba(240,237,230,0.14); padding:11px; outline:none"></textarea>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ═══════════════════════════════════════════
+     THEME / SLIDE VIEW
+════════════════════════════════════════════ -->
+<sc-if value="{{ isTheme }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed; inset:0; background:{{ themeBg }}; color:{{ themeText }}; font-family:'DM Sans',sans-serif; z-index:200; overflow:hidden">
+
+    <!-- Top nav -->
+    <nav style="position:fixed; top:0; left:0; right:0; z-index:300; padding:20px 48px; display:flex; justify-content:space-between; align-items:center; background:{{ themeNavBg }}; backdrop-filter:blur(24px)">
+      <button onClick="{{ exitTheme }}" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:{{ themeText }}; background:transparent; border:none; cursor:pointer; opacity:0.4; transition:opacity 0.3s ease; outline:none; padding:0; display:flex; align-items:center; gap:10px" style-hover="opacity:1">
+        <span style="font-size:15px">←</span> GERİ
+      </button>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:{{ themeText }}; opacity:0.55; letter-spacing:0.06em; font-style:italic">{{ themeName }}</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; color:{{ themeText }}; opacity:0.3">{{ slideNum }} / {{ totalNum }}</div>
+    </nav>
+
+    <!-- Slide container — ref allows JS to restart animation -->
+    <div ref="{{ slideRef }}" style="width:100%; height:100vh; animation:scaleIn 0.52s cubic-bezier(0.16,1,0.3,1) both">
+
+      <!-- COVER -->
+      <sc-if value="{{ isCover }}" hint-placeholder-val="{{ true }}">
+        <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:48px; position:relative; overflow:hidden">
+          <div style="position:absolute; top:-18%; right:-10%; width:58vw; height:58vw; border-radius:50%; background:{{ themeAccent }}; opacity:0.06; filter:blur(110px); pointer-events:none"></div>
+          <div style="position:absolute; inset:0; background:repeating-linear-gradient(135deg,rgba(255,255,255,0.007) 0px,rgba(255,255,255,0.007) 1px,transparent 1px,transparent 18px); pointer-events:none"></div>
+          <div style="position:relative; z-index:1">
+            <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.3em; color:{{ themeAccent }}; opacity:0.85; margin-bottom:48px">{{ themeNumber }} — {{ themeYear }}</div>
+            <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(70px,13vw,210px); line-height:0.82; font-weight:400; letter-spacing:-0.04em; color:{{ themeText }}; margin-bottom:44px">{{ slideTitle }}</h1>
+            <div style="display:flex; align-items:center; gap:28px">
+              <div style="width:52px; height:1px; background:{{ themeAccent }}"></div>
+              <div style="font-family:'Cormorant Garamond',serif; font-size:21px; font-style:italic; color:{{ themeText }}; opacity:0.42">{{ slideSub }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- INTRO -->
+      <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ false }}">
+        <div id="slide-two-col-intro" style="width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; padding:96px 48px 64px; gap:80px; align-items:center">
+          <div>
+            <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.26em; color:{{ themeAccent }}; opacity:0.8; margin-bottom:36px">KAVRAM TANIMI</div>
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(42px,5vw,86px); font-weight:400; color:{{ themeText }}; letter-spacing:-0.028em; line-height:0.87; margin-bottom:36px">{{ slideTitle }}</h2>
+            <div style="width:40px; height:1px; background:{{ themeAccent }}; opacity:0.65"></div>
+          </div>
+          <div>
+            <p style="font-size:17px; line-height:1.88; color:{{ themeText }}; opacity:0.62; text-wrap:pretty; font-weight:300">{{ slideBody }}</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- MOODBOARD: Sol = sabit video | Sağ = uzun site görseli (kendi içinde scroll) -->
+      <sc-if value="{{ isMoodboard }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; padding-top:64px; padding-bottom:52px; gap:0">
+
+          <!-- SOL: Video alanı — sabit kalır -->
+          <div style="position:relative; overflow:hidden; min-height:0; border-right:1px solid rgba(255,255,255,0.06)">
+            <!-- Texture -->
+            <video src="{{ themeMoodVideo }}" autoPlay muted loop playsInline controls onCanPlay="{{ playMoodVideo }}" onError="{{ fixMoodVideo }}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#000"></video>
+            <div style="position:absolute; inset:0; background:repeating-linear-gradient(135deg,rgba(255,255,255,0.008) 0px,rgba(255,255,255,0.008) 1px,transparent 1px,transparent 16px); pointer-events:none"></div>
+            <!-- Accent glow -->
+            <div style="position:absolute; bottom:0; left:0; right:0; height:40%; background:linear-gradient(to top,{{ themeAccent }}10,transparent); pointer-events:none"></div>
+
+            <!-- İçerik merkezi -->
+            <div style="display:none; position:absolute; inset:0; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:40px">
+              <!-- Oynat ikonu -->
+              <div style="width:72px; height:72px; border-radius:50%; border:1px solid {{ themeAccent }}; display:flex; align-items:center; justify-content:center; opacity:0.5">
+                <div style="width:0; height:0; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:20px solid {{ themeAccent }}; margin-left:4px"></div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.25em; color:{{ themeAccent }}; opacity:0.8; margin-bottom:8px">VİDEO ALANI</div>
+                <div style="font-family:'Cormorant Garamond',serif; font-size:22px; font-style:italic; color:{{ themeText }}; opacity:0.3; line-height:1.4">referans video<br>veya animasyon</div>
+              </div>
+              <!-- Format bilgisi -->
+              <div style="position:absolute; bottom:28px; left:0; right:0; text-align:center; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.18">MP4 / WEBM — 16:9</div>
+            </div>
+
+            <!-- Sol üst etiket -->
+            <div style="position:absolute; top:20px; left:28px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.22em; color:{{ themeText }}; opacity:0.28">01 / VİDEO</div>
+          </div>
+
+          <!-- SAĞ: Uzun site görseli — kendi içinde scroll edilir -->
+          <div data-site-scroll="1" style="overflow-y:auto; overflow-x:hidden; position:relative; scrollbar-width:none; min-height:0">
+            <!-- Üst etiket (yapışık) -->
+            <div style="position:sticky; top:0; z-index:10; padding:18px 28px; background:{{ themeBg }}; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center">
+              <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.22em; color:{{ themeAccent }}; opacity:0.8">02 / SİTE GÖRSELİ</div>
+              <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.25; display:flex; align-items:center; gap:8px">
+                <div style="width:12px; height:1px; background:currentColor"></div>
+                AŞAĞI KAYDIRIN
+              </div>
+            </div>
+
+            <!-- Uzun site screenshot placeholder -->
+            <div style="position:relative; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05); border-top:none">
+              <img src="{{ themeSiteImage }}" alt="Site gorseli" onError="{{ fixSiteImage }}" style="display:block; width:100%; height:auto">
+              <!-- Texture overlay -->
+              <div style="position:absolute; inset:0; background:repeating-linear-gradient(180deg,rgba(255,255,255,0.008) 0px,rgba(255,255,255,0.008) 1px,transparent 1px,transparent 80px); pointer-events:none"></div>
+
+              <!-- Sahte site bölümleri: görsel yapı simülasyonu -->
+              <!-- Hero -->
+              <div style="display:none; height:56vh; border-bottom:1px solid rgba(255,255,255,0.05); align-items:center; justify-content:center; flex-direction:column; gap:12px; position:relative">
+                <div style="width:60%; height:8px; background:{{ themeAccent }}; opacity:0.12; border-radius:2px"></div>
+                <div style="width:40%; height:6px; background:{{ themeText }}; opacity:0.07; border-radius:2px"></div>
+                <div style="width:20%; height:4px; background:{{ themeText }}; opacity:0.05; border-radius:2px; margin-top:8px"></div>
+                <div style="position:absolute; bottom:20px; left:28px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.14">hero bölümü</div>
+              </div>
+
+              <!-- Hakkında -->
+              <div style="display:none; height:40vh; border-bottom:1px solid rgba(255,255,255,0.05); gap:20px; align-items:center; padding:28px; position:relative">
+                <div style="flex:1; height:100%; background:rgba(255,255,255,0.03)"></div>
+                <div style="flex:1; display:flex; flex-direction:column; gap:10px; justify-content:center">
+                  <div style="width:80%; height:5px; background:{{ themeText }}; opacity:0.07; border-radius:2px"></div>
+                  <div style="width:100%; height:4px; background:{{ themeText }}; opacity:0.05; border-radius:2px"></div>
+                  <div style="width:90%; height:4px; background:{{ themeText }}; opacity:0.05; border-radius:2px"></div>
+                  <div style="width:70%; height:4px; background:{{ themeText }}; opacity:0.05; border-radius:2px"></div>
+                </div>
+                <div style="position:absolute; bottom:16px; left:28px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.14">hakkında bölümü</div>
+              </div>
+
+              <!-- Grid bölümü -->
+              <div style="display:none; height:50vh; border-bottom:1px solid rgba(255,255,255,0.05); padding:28px; grid-template-columns:1fr 1fr 1fr; gap:8px; position:relative">
+                <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05)"></div>
+                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05)"></div>
+                <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05)"></div>
+                <div style="position:absolute; bottom:16px; left:28px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.14">içerik grid</div>
+              </div>
+
+              <!-- Alt bölüm -->
+              <div style="display:none; height:40vh; align-items:center; justify-content:center; flex-direction:column; gap:12px; position:relative">
+                <div style="width:50%; height:6px; background:{{ themeAccent }}; opacity:0.1; border-radius:2px"></div>
+                <div style="width:25%; height:4px; background:{{ themeText }}; opacity:0.06; border-radius:2px"></div>
+                <div style="position:absolute; bottom:20px; left:28px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.15em; color:{{ themeText }}; opacity:0.14">footer</div>
+              </div>
+
+              <!-- Merkez açıklama etiketi -->
+              <div style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none">
+                <div style="font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:{{ themeText }}; opacity:0.18; line-height:1.6">sitenin tam sayfa<br>ekran görüntüsü</div>
+              </div>
+            </div>
+
+            <!-- Sonraki slayta geç butonu — içeriğin en altında -->
+            <div onClick="{{ nextSlide }}" style="display:flex; align-items:center; justify-content:center; gap:16px; padding:32px 28px; cursor:pointer; border-top:1px solid rgba(255,255,255,0.06); transition:background 0.3s ease; position:relative; z-index:5" style-hover="background:rgba(255,255,255,0.04)">
+              <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.22em; color:{{ themeAccent }}; opacity:0.7">RENK PALETİNE GEÇ</div>
+              <div style="display:flex; align-items:center; gap:6px; color:{{ themeAccent }}; opacity:0.5">
+                <div style="width:24px; height:1px; background:currentColor"></div>
+                <div style="font-size:14px">→</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </sc-if>
+
+      <!-- PALETTE -->
+      <sc-if value="{{ isPalette }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:96px 48px 64px; gap:56px">
+          <div>
+            <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.26em; color:{{ themeAccent }}; opacity:0.8; margin-bottom:22px">RENK PALETİ</div>
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(40px,5vw,78px); font-weight:400; color:{{ themeText }}; letter-spacing:-0.025em">{{ slideTitle }}</h2>
+          </div>
+          <div id="slide-palette-row" style="display:flex; gap:4px; height:200px">
+            <sc-for list="{{ themePalette }}" as="sw" hint-placeholder-count="5">
+              <div style="flex:1; background:{{ sw.color }}; position:relative; display:flex; flex-direction:column; justify-content:flex-end; padding:14px 12px; overflow:hidden; transition:flex 0.4s ease" style-hover="flex:2">
+                <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; color:#fff; opacity:0.8; text-shadow:0 1px 4px rgba(0,0,0,0.6); margin-bottom:3px; position:relative; z-index:1">{{ sw.name }}</div>
+                <div style="font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.1em; color:#fff; opacity:0.42; text-shadow:0 1px 4px rgba(0,0,0,0.6); position:relative; z-index:1">{{ sw.color }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- TYPOGRAPHY -->
+      <sc-if value="{{ isTypography }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:96px 48px 64px">
+          <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.26em; color:{{ themeAccent }}; opacity:0.8; margin-bottom:48px">TİPOGRAFİ SİSTEMİ</div>
+          <div style="padding:40px 0; border-top:1px solid rgba(255,255,255,0.08)">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:20px">
+              <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; color:{{ themeText }}; opacity:0.32">GÖRÜNTÜ / SERİF</div>
+              <div style="font-family:'DM Mono',monospace; font-size:9px; color:{{ themeAccent }}; opacity:0.6">{{ themeDisplayFont }}</div>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:clamp(50px,7.5vw,108px); font-weight:400; color:{{ themeText }}; line-height:0.88; letter-spacing:-0.025em">Aa Bb Cc — İı Şş</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-style:italic; color:{{ themeText }}; opacity:0.32; margin-top:14px">İtalik / Regular / Light — 300 · 400 · 500</div>
+          </div>
+          <div style="padding:36px 0; border-top:1px solid rgba(255,255,255,0.08); margin-top:8px">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px">
+              <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; color:{{ themeText }}; opacity:0.32">GÖVDE / SANS-SERIF</div>
+              <div style="font-family:'DM Mono',monospace; font-size:9px; color:{{ themeAccent }}; opacity:0.6">{{ themeBodyFont }}</div>
+            </div>
+            <div style="font-family:'DM Sans',sans-serif; font-size:16px; font-weight:300; color:{{ themeText }}; opacity:0.58; line-height:1.72; max-width:560px; text-wrap:pretty">
+              Açık, okunaklı ve modern. Gövde metinlerinde, açıklamalarda ve ara yüz öğelerinde kullanılan bu yazı karakteri temayı tamamlar ve içeriği güzel bir biçimde sunar.
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- QUOTE -->
+      <sc-if value="{{ isQuote }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:80px; position:relative; overflow:hidden">
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none">
+            <div style="width:48vw; height:48vw; border-radius:50%; background:{{ themeAccent }}; opacity:0.05; filter:blur(90px)"></div>
+          </div>
+          <blockquote style="max-width:800px; text-align:center; position:relative; z-index:1">
+            <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(24px,3.2vw,52px); font-weight:400; color:{{ themeText }}; line-height:1.38; letter-spacing:-0.01em; font-style:italic; margin-bottom:44px">{{ slideQuote }}</p>
+            <div style="width:26px; height:1px; background:{{ themeAccent }}; margin:0 auto; opacity:0.65"></div>
+          </blockquote>
+        </div>
+      </sc-if>
+
+      <!-- DETAILS -->
+      <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}">
+        <div id="slide-two-col-details" style="width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; padding:96px 48px 64px; gap:80px; align-items:center">
+          <div>
+            <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.26em; color:{{ themeAccent }}; opacity:0.8; margin-bottom:36px">TASARIM İLKELERİ</div>
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(40px,5vw,78px); font-weight:400; color:{{ themeText }}; letter-spacing:-0.025em; line-height:0.87">{{ slideTitle }}</h2>
+          </div>
+          <div style="display:flex; flex-direction:column">
+            <sc-for list="{{ slideItems }}" as="item" hint-placeholder-count="5">
+              <div style="display:flex; gap:20px; align-items:flex-start; padding:18px 0; border-bottom:1px solid rgba(255,255,255,0.065)">
+                <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.18em; color:{{ themeAccent }}; opacity:0.55; padding-top:4px; flex-shrink:0">{{ item.num }}</div>
+                <div style="font-size:14px; color:{{ themeText }}; opacity:0.62; line-height:1.58; font-weight:300">{{ item.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+    </div><!-- end slide container -->
+
+    <!-- Bottom nav -->
+    <div style="position:fixed; bottom:0; left:0; right:0; z-index:300; padding:16px 48px 18px">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+        <button onClick="{{ prevSlide }}" style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; color:{{ themeText }}; background:transparent; border:none; cursor:pointer; opacity:{{ prevOp }}; transition:opacity 0.3s ease; outline:none; padding:0; display:flex; align-items:center; gap:8px" style-hover="opacity:0.92">← ÖNCE</button>
+
+        <div style="display:flex; gap:7px; align-items:center">
+          <sc-for list="{{ slideDots }}" as="dot" hint-placeholder-count="7">
+            <div onClick="{{ dot.jump }}" style="width:{{ dot.w }}; height:{{ dot.w }}; border-radius:50%; background:{{ themeAccent }}; opacity:{{ dot.op }}; transition:all 0.35s ease; cursor:pointer; flex-shrink:0"></div>
+          </sc-for>
+        </div>
+
+        <button onClick="{{ nextSlide }}" style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; color:{{ themeText }}; background:transparent; border:none; cursor:pointer; opacity:{{ nextOp }}; transition:opacity 0.3s ease; outline:none; padding:0; display:flex; align-items:center; gap:8px" style-hover="opacity:0.92">SONRA →</button>
+      </div>
+      <!-- Progress bar -->
+      <div style="height:1px; background:rgba(255,255,255,0.08); position:relative; overflow:visible">
+        <div style="position:absolute; top:0; left:0; height:1px; background:{{ themeAccent }}; width:{{ progressW }}; transition:width 0.65s cubic-bezier(0.16,1,0.3,1)"></div>
+      </div>
+    </div>
+
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'home', themeId: null, slide: 0, adminThemeId: 'nordic', adminSavedAt: null };
+
+  slideRef = React.createRef();
+
+  themes = [
+    {
+      id: 'nordic',
+      number: '01',
+      name: 'Nordic Silence',
+      subtitle: 'Minimalizm · Buz · Sessizlik',
+      year: '2025',
+      tags: ['Residential', 'Minimal', 'Nordic'],
+      palette: ['#1a2832', '#2d4a5f', '#7aa3b8', '#b8d4e3', '#e8f0f5'],
+      paletteNames: ['Derin Okyanus', 'Arduvaz', 'Buz Mavisi', 'Kırağı', 'Bulut'],
+      bgColor: '#0d1418',
+      textColor: '#e8f0f5',
+      accentColor: '#7aa3b8',
+      fontDisplay: 'Cormorant Garamond',
+      fontBody: 'DM Sans',
+      slides: [
+        { type: 'cover',      title: 'Nordic Silence', sub: 'Bir Kısıtlama Çalışması' },
+        { type: 'intro',      title: 'Kavram',         body: 'Soğuk havadan oyulan temiz çizgiler. Bu tema kısıtlamanın mimarisini araştırır — daha azının daha fazla olduğu, her detayın kompozisyonda yerini hak ettiği bir dünya.' },
+        { type: 'moodboard',  title: 'Referanslar' },
+        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'typography', title: 'Tipografi' },
+        { type: 'quote',      text: '"Boş alan boşluk değildir — müziği mümkün kılan notalar arasındaki nefestir."' },
+        { type: 'details',    title: 'Tasarım İlkeleri', items: ['Negatif alan kompozisyon aracı olarak', 'Tek sıcak aksanla monokromatik palet', 'Izgara tabanlı asimetrik yerleşim', 'Dokunsal dokular: keten, beton, huş', 'Tipografi: seyrek, havadar, editoryal'] },
+      ],
+    },
+    {
+      id: 'terra',
+      number: '02',
+      name: 'Terra Firma',
+      subtitle: 'Toprak · Sıcaklık · Derinlik',
+      year: '2025',
+      tags: ['Commercial', 'Organic', 'Earthy'],
+      palette: ['#2a1a0e', '#5c3a1e', '#c4813c', '#e8b87a', '#f5e6d3'],
+      paletteNames: ['Derin Toprak', 'Kabuk', 'Terrakota', 'Kum', 'Parşömen'],
+      bgColor: '#140d06',
+      textColor: '#f5e6d3',
+      accentColor: '#c4813c',
+      fontDisplay: 'Cormorant Garamond',
+      fontBody: 'DM Sans',
+      slides: [
+        { type: 'cover',      title: 'Terra Firma',    sub: 'Altımızdaki Zemin' },
+        { type: 'intro',      title: 'Kavram',         body: 'Toprağın sıcaklığına kök salmış. Bu tema ham malzemelerden ilham alır — kil, taş, kereste — eski ve kalıcı hissettiren atmosferler yaratmak için.' },
+        { type: 'moodboard',  title: 'Referanslar' },
+        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'typography', title: 'Tipografi' },
+        { type: 'quote',      text: '"Toprak bize ait değildir. Biz toprağa aitiz."' },
+        { type: 'details',    title: 'Tasarım İlkeleri', items: ['Ham, işlenmemiş yüzeyler', 'Sıcak kehribar aydınlatma referansları', 'Organik ve düzensiz formlar', 'Ağır ağırlık ve görsel kütle', 'Doğal malzeme paleti: kil · taş · ahşap'] },
+      ],
+    },
+    {
+      id: 'neon',
+      number: '03',
+      name: 'Neon Void',
+      subtitle: 'Elektrik · Karanlık · Gelecek',
+      year: '2025',
+      tags: ['Urban', 'Futurist', 'Digital'],
+      palette: ['#0a0714', '#1e0a3c', '#9b5de5', '#c89af0', '#e8d0f5'],
+      paletteNames: ['Boşluk', 'Derin Uzay', 'Elektrik', 'Mor Sis', 'Haze'],
+      bgColor: '#060410',
+      textColor: '#e8d0f5',
+      accentColor: '#9b5de5',
+      fontDisplay: 'Cormorant Garamond',
+      fontBody: 'DM Sans',
+      slides: [
+        { type: 'cover',      title: 'Neon Void',      sub: 'Elektrik Karanlık' },
+        { type: 'intro',      title: 'Kavram',         body: 'Şehir ışıklarının altında, farklı bir dünya var. Bu tema kentsel gece manzaralarının elektrik gerilimini yakalar — ham enerji, ince bir estetik merceğinden süzülmüş.' },
+        { type: 'moodboard',  title: 'Referanslar' },
+        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'typography', title: 'Tipografi' },
+        { type: 'quote',      text: '"Karanlıkta, gündüzlüğün gizlediği renkleri görürüz."' },
+        { type: 'details',    title: 'Tasarım İlkeleri', items: ['Derin koyu taban üzerine neon aksan', 'Yüksek kontrast ve dramatik gölge', 'Kontrollü kaos, glitch esintisi', 'Dijital + analog birleşimi', 'Işık bir malzeme olarak kullanımı'] },
+      ],
+    },
+    {
+      id: 'atelier',
+      number: '04',
+      name: 'Atelier Light',
+      subtitle: 'IÅŸÄ±k Â· Doku Â· Zarafet',
+      year: '2025',
+      tags: ['Editorial', 'Soft', 'Gallery'],
+      palette: ['#111111', '#3a332c', '#b99d73', '#e6d7bd', '#f7f1e7'],
+      paletteNames: ['Murekkep', 'Golge', 'Pirinç', 'Keten', 'Kagit'],
+      bgColor: '#111111',
+      textColor: '#f7f1e7',
+      accentColor: '#b99d73',
+      fontDisplay: 'Cormorant Garamond',
+      fontBody: 'DM Sans',
+      slides: [
+        { type: 'cover',      title: 'Atelier Light',  sub: 'Yumusak Bir Sergi Dili' },
+        { type: 'intro',      title: 'Kavram',         body: 'Isik, dokular ve bosluk uzerinden sakin ama etkili bir marka atmosferi kurar. Bu tema zarif detaylari ve kontrollu kontrasti one cikarir.' },
+        { type: 'moodboard',  title: 'Referanslar' },
+        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'typography', title: 'Tipografi' },
+        { type: 'quote',      text: '"Iyi tasarim once nefes alacak alan bulur."' },
+        { type: 'details',    title: 'Tasarim Ilkeleri', items: ['Yumusak kontrast ve dogal doku', 'Galeri hissi veren bosluk kullanimi', 'Net ama sakin tipografi', 'Az sayida guclu vurgu', 'Gorsellerde editorial kadraj'] },
+      ],
+    },
+    {
+      id: 'pulse',
+      number: '05',
+      name: 'Urban Pulse',
+      subtitle: 'Ritim Â· Hareket Â· Enerji',
+      year: '2025',
+      tags: ['Culture', 'Motion', 'Bold'],
+      palette: ['#090909', '#242424', '#ff4d35', '#ffb000', '#f2f2ea'],
+      paletteNames: ['Siyah', 'Asfalt', 'Koral', 'Sinyal', 'Sis'],
+      bgColor: '#090909',
+      textColor: '#f2f2ea',
+      accentColor: '#ff4d35',
+      fontDisplay: 'Cormorant Garamond',
+      fontBody: 'DM Sans',
+      slides: [
+        { type: 'cover',      title: 'Urban Pulse',    sub: 'Hareket Eden Kent' },
+        { type: 'intro',      title: 'Kavram',         body: 'Kent ritminden beslenen daha cesur bir yon. Hareket, tipografi ve kontrast ile enerjik ama kontrollu bir sunum dili olusturur.' },
+        { type: 'moodboard',  title: 'Referanslar' },
+        { type: 'palette',    title: 'Renk Paleti' },
+        { type: 'typography', title: 'Tipografi' },
+        { type: 'quote',      text: '"Ritim, gorsel dunyanin sessiz metronomudur."' },
+        { type: 'details',    title: 'Tasarim Ilkeleri', items: ['Yuksek kontrastli yuzeyler', 'Hareket hissi veren kompozisyon', 'Cesur aksan rengi', 'Kisa ve ritmik metin bloklari', 'Video ve gorselde dinamik gecisler'] },
+      ],
+    },
+  ];
+
+  enterTheme(id) {
+    this.setState({ view: 'theme', themeId: id, slide: 0 });
+  }
+
+  exitTheme() {
+    this.setState({ view: 'home', themeId: null, slide: 0 });
+  }
+
+  enterAdmin() {
+    this.setState({ view: 'admin', themeId: null, slide: 0, adminThemeId: this.state.adminThemeId || this.themes[0]?.id });
+  }
+
+  exitAdmin() {
+    this.setState({ view: 'home' });
+  }
+
+  selectedAdminTheme() {
+    return this.themes.find(t => t.id === this.state.adminThemeId) || this.themes[0];
+  }
+
+  updateTheme(id, patch) {
+    this.themes = this.themes.map(t => t.id === id ? { ...t, ...patch } : t);
+    this.setState({ adminSavedAt: null, adminThemeId: id });
+  }
+
+  updateSelectedTheme(patch) {
+    const th = this.selectedAdminTheme();
+    if (th) this.updateTheme(th.id, patch);
+  }
+
+  updateSlide(type, patch) {
+    const th = this.selectedAdminTheme();
+    if (!th) return;
+    const slides = th.slides.map(s => s.type === type ? { ...s, ...patch } : s);
+    this.updateTheme(th.id, { slides });
+  }
+
+  splitList(value) {
+    return String(value || '').split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  mediaFallbacks(src, kind) {
+    const raw = String(src || '').trim();
+    if (!raw) return [];
+    const list = [];
+    const add = (v) => { if (v && v !== raw && !list.includes(v)) list.push(v); };
+    if (kind === 'image' && !/\.(png|jpe?g|webp|gif)$/i.test(raw)) {
+      add(raw + '.png');
+      add(raw + '.jpg');
+      add(raw + '.webp');
+    }
+    if (kind === 'video' && !/\.(mp4|webm|mov|mkv)$/i.test(raw)) {
+      add(raw + '.mp4');
+      add(raw + '.webm');
+    }
+    add(raw.replace(/tema(\d+)/i, 'tema-$1'));
+    add(raw.replace(/site(\d+)/i, 'site-$1'));
+    add(raw.replace(/tema-(\d+)/i, 'tema$1'));
+    add(raw.replace(/site-(\d+)/i, 'site$1'));
+    return list;
+  }
+
+  tryNextMedia(e, kind) {
+    const el = e.currentTarget;
+    const tried = (el.dataset.triedMedia || '').split('|').filter(Boolean);
+    const base = el.dataset.baseSrc || el.getAttribute('src') || '';
+    el.dataset.baseSrc = base;
+    const next = this.mediaFallbacks(base, kind).find(src => !tried.includes(src));
+    if (!next) return;
+    el.dataset.triedMedia = [...tried, next].join('|');
+    el.src = next;
+  }
+
+  saveAdminData() {
+    localStorage.setItem('kavram-admin-themes', JSON.stringify(this.themes));
+    this.setState({ adminSavedAt: Date.now(), adminThemeId: this.selectedAdminTheme()?.id || this.state.adminThemeId });
+  }
+
+  resetAdminData() {
+    localStorage.removeItem('kavram-admin-themes');
+    location.reload();
+  }
+
+  goTo(i) {
+    const th = this.themes.find(t => t.id === this.state.themeId);
+    if (!th) return;
+    const n = Math.max(0, Math.min(th.slides.length - 1, i));
+    this.setState({ slide: n });
+  }
+
+  next() { this.goTo(this.state.slide + 1); }
+  prev() { this.goTo(this.state.slide - 1); }
+
+  componentDidMount() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('kavram-admin-themes') || 'null');
+      if (Array.isArray(saved) && saved.length) {
+        this.themes = saved;
+        this.setState({ adminThemeId: saved[0]?.id || this.state.adminThemeId });
+      }
+    } catch (_) {}
+
+    this._onKey = (e) => {
+      if (this.state.view !== 'theme') return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); this.next(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); this.prev(); }
+      else if (e.key === 'Escape') this.exitTheme();
+    };
+    this._onWheel = (e) => {
+      if (this.state.view !== 'theme') return;
+      if (e.target?.closest?.('[data-site-scroll]')) return;
+      e.preventDefault();
+      if (this._wt) return;
+      this._wt = true;
+      if (e.deltaY > 20) this.next();
+      else if (e.deltaY < -20) this.prev();
+      setTimeout(() => { this._wt = false; }, 850);
+    };
+    let tx = 0, ty = 0;
+    this._onTouchStart = (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; };
+    this._onTouchEnd = (e) => {
+      if (this.state.view !== 'theme') return;
+      const dx = e.changedTouches[0].clientX - tx;
+      const dy = e.changedTouches[0].clientY - ty;
+      if (Math.abs(dy) > Math.abs(dx)) { if (dy < -48) this.next(); else if (dy > 48) this.prev(); }
+      else { if (dx < -48) this.next(); else if (dx > 48) this.prev(); }
+    };
+    document.addEventListener('keydown', this._onKey);
+    document.addEventListener('wheel', this._onWheel, { passive: false });
+    document.addEventListener('touchstart', this._onTouchStart, { passive: true });
+    document.addEventListener('touchend', this._onTouchEnd, { passive: true });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this._onKey);
+    document.removeEventListener('wheel', this._onWheel);
+    document.removeEventListener('touchstart', this._onTouchStart);
+    document.removeEventListener('touchend', this._onTouchEnd);
+  }
+
+  componentDidUpdate(pp, ps) {
+    // Restart slide animation on slide change
+    if (ps?.slide !== this.state.slide || ps?.themeId !== this.state.themeId) {
+      const el = this.slideRef.current;
+      if (el) {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = 'scaleIn 0.52s cubic-bezier(0.16,1,0.3,1) both';
+      }
+    }
+  }
+
+  renderVals() {
+    const { view, themeId, slide } = this.state;
+    const isHome  = view === 'home';
+    const isTheme = view === 'theme';
+    const isAdmin = view === 'admin';
+
+    const activeTheme = isTheme ? (this.themes.find(t => t.id === themeId) || null) : null;
+    const slides      = activeTheme ? activeTheme.slides : [];
+    const totalSlides = slides.length;
+    const cur         = slides[slide] || null;
+    const adminTheme  = this.selectedAdminTheme();
+    const adminSlide  = (type) => adminTheme?.slides.find(s => s.type === type) || {};
+    const adminCover  = adminSlide('cover');
+    const adminIntro  = adminSlide('intro');
+    const adminMood   = adminSlide('moodboard');
+    const adminPal    = adminSlide('palette');
+    const adminQuoteS = adminSlide('quote');
+    const adminDetails= adminSlide('details');
+
+    // Homepage theme list
+    const themes = this.themes.map(t => ({
+      id:          t.id,
+      number:      t.number,
+      name:        t.name,
+      subtitle:    t.subtitle,
+      year:        t.year,
+      tags:        t.tags,
+      bgColor:     t.bgColor,
+      textColor:   t.textColor,
+      accentColor: t.accentColor,
+      enter:       () => this.enterTheme(t.id),
+    }));
+
+    // Palette swatches
+    const themePalette = activeTheme
+      ? activeTheme.palette.map((color, i) => ({ color, name: activeTheme.paletteNames[i] || '' }))
+      : [];
+
+    // Slide type flags
+    const type        = cur?.type || '';
+    const isCover     = type === 'cover';
+    const isIntro     = type === 'intro';
+    const isMoodboard = type === 'moodboard';
+    const isPalette   = type === 'palette';
+    const isTypography= type === 'typography';
+    const isQuote     = type === 'quote';
+    const isDetails   = type === 'details';
+
+    // Detail items
+    const slideItems = (cur?.items || []).map((text, i) => ({
+      num:  String(i + 1).padStart(2, '0'),
+      text,
+    }));
+
+    // Navigation
+    const canPrev = slide > 0;
+    const canNext = slide < totalSlides - 1;
+    const pct     = totalSlides > 1 ? Math.round((slide / (totalSlides - 1)) * 100) : 0;
+
+    const slideDots = slides.map((_, i) => ({
+      w:    i === slide ? '7px' : '4px',
+      op:   i === slide ? '1'   : '0.28',
+      jump: () => this.goTo(i),
+    }));
+
+    const adminThemes = this.themes.map(t => ({
+      id: t.id,
+      number: t.number,
+      name: t.name,
+      bg: t.id === adminTheme?.id ? 'rgba(240,237,230,0.12)' : 'rgba(255,255,255,0.03)',
+      select: () => this.setState({ adminThemeId: t.id }),
+    }));
+
+    // Nav bg — append alpha to hex
+    const themeNavBg = activeTheme ? activeTheme.bgColor + 'dd' : '#080808dd';
+
+    return {
+      isHome,
+      isTheme,
+      isAdmin,
+      themes,
+      themePalette,
+      adminThemes,
+
+      // Theme identity
+      themeBg:          activeTheme?.bgColor      || '#080808',
+      themeText:        activeTheme?.textColor     || '#f0ede6',
+      themeAccent:      activeTheme?.accentColor   || '#7aa3b8',
+      themeNavBg,
+      themeName:        activeTheme?.name          || '',
+      themeNumber:      activeTheme?.number        || '',
+      themeYear:        activeTheme?.year          || '',
+      themeDisplayFont: activeTheme?.fontDisplay   || 'Cormorant Garamond',
+      themeBodyFont:    activeTheme?.fontBody      || 'DM Sans',
+      themeMoodVideo:   activeTheme?.moodVideo     || './uploads/videolar/tema01.mp4',
+      themeSiteImage:   activeTheme?.siteImage     || './uploads/site-gorsel.png',
+
+      // Slide content
+      isCover, isIntro, isMoodboard, isPalette, isTypography, isQuote, isDetails,
+      slideTitle: cur?.title || '',
+      slideSub:   cur?.sub   || '',
+      slideBody:  cur?.body  || '',
+      slideQuote: cur?.text  || '',
+      slideItems,
+
+      // Navigation state
+      slideNum:  String(slide + 1).padStart(2, '0'),
+      totalNum:  String(totalSlides).padStart(2, '0'),
+      progressW: `${pct}%`,
+      slideDots,
+      prevOp:    canPrev ? '0.6' : '0.16',
+      nextOp:    canNext ? '0.6' : '0.16',
+
+      // Admin values
+      adminName:          adminTheme?.name || '',
+      adminSubtitle:      adminTheme?.subtitle || '',
+      adminTags:          (adminTheme?.tags || []).join(', '),
+      adminBgColor:       adminTheme?.bgColor || '',
+      adminTextColor:     adminTheme?.textColor || '',
+      adminAccentColor:   adminTheme?.accentColor || '',
+      adminVideo:         adminTheme?.moodVideo || './uploads/videolar/tema01.mp4',
+      adminImage:         adminTheme?.siteImage || './uploads/site-gorsel.png',
+      adminPalette:       (adminTheme?.palette || []).join(', '),
+      adminPaletteNames:  (adminTheme?.paletteNames || []).join(', '),
+      adminCoverTitle:    adminCover.title || '',
+      adminCoverSub:      adminCover.sub || '',
+      adminIntroBody:     adminIntro.body || '',
+      adminMoodTitle:     adminMood.title || '',
+      adminPaletteTitle:  adminPal.title || '',
+      adminQuote:         adminQuoteS.text || '',
+      adminDetailsItems:  (adminDetails.items || []).join('\n'),
+      adminSaveText:      this.state.adminSavedAt ? 'KAYDEDILDI' : 'KAYDEDILMEDI',
+      adminSavedOp:       this.state.adminSavedAt ? '0.9' : '0.28',
+
+      // Handlers
+      enterPresentation: () => {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+        this.enterTheme(this.themes[0].id);
+      },
+      enterAdmin: () => this.enterAdmin(),
+      exitAdmin:  () => this.exitAdmin(),
+      saveAdmin:  () => this.saveAdminData(),
+      resetAdmin: () => this.resetAdminData(),
+      exitTheme:  () => this.exitTheme(),
+      nextSlide:  () => this.next(),
+      prevSlide:  () => this.prev(),
+      playMoodVideo: (e) => {
+        const video = e.currentTarget;
+        video.muted = true;
+        video.play?.().catch(() => {});
+      },
+      fixMoodVideo: (e) => this.tryNextMedia(e, 'video'),
+      fixSiteImage: (e) => this.tryNextMedia(e, 'image'),
+
+      adminNameChange:         (e) => this.updateSelectedTheme({ name: e.target.value }),
+      adminSubtitleChange:     (e) => this.updateSelectedTheme({ subtitle: e.target.value }),
+      adminTagsChange:         (e) => this.updateSelectedTheme({ tags: this.splitList(e.target.value) }),
+      adminBgColorChange:      (e) => this.updateSelectedTheme({ bgColor: e.target.value }),
+      adminTextColorChange:    (e) => this.updateSelectedTheme({ textColor: e.target.value }),
+      adminAccentColorChange:  (e) => this.updateSelectedTheme({ accentColor: e.target.value }),
+      adminVideoChange:        (e) => this.updateSelectedTheme({ moodVideo: e.target.value }),
+      adminImageChange:        (e) => this.updateSelectedTheme({ siteImage: e.target.value }),
+      adminPaletteChange:      (e) => this.updateSelectedTheme({ palette: this.splitList(e.target.value) }),
+      adminPaletteNamesChange: (e) => this.updateSelectedTheme({ paletteNames: this.splitList(e.target.value) }),
+      adminCoverTitleChange:   (e) => this.updateSlide('cover', { title: e.target.value }),
+      adminCoverSubChange:     (e) => this.updateSlide('cover', { sub: e.target.value }),
+      adminIntroBodyChange:    (e) => this.updateSlide('intro', { body: e.target.value }),
+      adminMoodTitleChange:    (e) => this.updateSlide('moodboard', { title: e.target.value }),
+      adminPaletteTitleChange: (e) => this.updateSlide('palette', { title: e.target.value }),
+      adminQuoteChange:        (e) => this.updateSlide('quote', { text: e.target.value }),
+      adminDetailsItemsChange: (e) => this.updateSlide('details', { items: String(e.target.value || '').split('\n').map(s => s.trim()).filter(Boolean) }),
+
+      slideRef: this.slideRef,
+    };
+  }
+}
+</script>
+</body>
+</html>
